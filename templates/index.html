@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Glucose & Exam Performance Tracker</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Type 1 Diabetes Study Helper</p>
+          <h1>Glucose & Exam Performance Tracker</h1>
+          <p class="subtitle">
+            Track exam outcomes alongside glucose metrics and instantly see predicted
+            outcomes.
+          </p>
+        </div>
+      </header>
+
+      <section class="card" id="entry-section">
+        <div class="card-header">
+          <h2>Add Entry</h2>
+          <p>All fields are required. Units are mg/dL for glucose.</p>
+        </div>
+        <form id="entry-form" class="form-grid">
+          <div class="form-field">
+            <label for="avg-glucose">Average blood sugar (mg/dL)</label>
+            <input
+              type="number"
+              id="avg-glucose"
+              name="avg_glucose"
+              min="1"
+              step="0.1"
+              placeholder="e.g. 130"
+              required
+            />
+            <span class="error" data-error-for="avg_glucose"></span>
+          </div>
+          <div class="form-field">
+            <label for="glucose-sd">Blood sugar standard deviation (mg/dL)</label>
+            <input
+              type="number"
+              id="glucose-sd"
+              name="glucose_sd"
+              min="0"
+              step="0.1"
+              placeholder="e.g. 30"
+              required
+            />
+            <span class="error" data-error-for="glucose_sd"></span>
+          </div>
+          <div class="form-field">
+            <label for="difficulty">Exam difficulty (1–10)</label>
+            <input
+              type="number"
+              id="difficulty"
+              name="difficulty"
+              min="1"
+              max="10"
+              step="0.1"
+              placeholder="e.g. 7"
+              required
+            />
+            <span class="error" data-error-for="difficulty"></span>
+          </div>
+          <div class="form-field">
+            <label for="score">Exam score (0–100)</label>
+            <input
+              type="number"
+              id="score"
+              name="score"
+              min="0"
+              max="100"
+              step="0.1"
+              placeholder="e.g. 88"
+              required
+            />
+            <span class="error" data-error-for="score"></span>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="primary">Save Entry</button>
+            <span class="status" id="save-status"></span>
+          </div>
+        </form>
+      </section>
+
+      <section class="card" id="history-section">
+        <div class="card-header">
+          <h2>History</h2>
+          <p>Review every entry added so far.</p>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Avg Glucose</th>
+                <th>Glucose SD</th>
+                <th>Difficulty</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </div>
+        <p class="empty-state" id="history-empty">No entries yet. Add the first one above.</p>
+      </section>
+
+      <section class="card" id="visualization-section">
+        <div class="card-header">
+          <h2>Visualization</h2>
+          <p>Score vs average glucose (hover for details).</p>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="scatter-chart" aria-label="Score vs Average Glucose"></canvas>
+        </div>
+      </section>
+
+      <section class="card" id="prediction-section">
+        <div class="card-header">
+          <h2>Prediction</h2>
+          <p>Adjust inputs to see predicted score based on your history.</p>
+        </div>
+        <div class="form-grid prediction-grid">
+          <div class="form-field">
+            <label for="predict-avg-glucose">Average blood sugar (mg/dL)</label>
+            <input
+              type="number"
+              id="predict-avg-glucose"
+              min="1"
+              step="0.1"
+              placeholder="e.g. 140"
+            />
+            <span class="error" data-error-for="predict_avg_glucose"></span>
+          </div>
+          <div class="form-field">
+            <label for="predict-glucose-sd">Blood sugar standard deviation (mg/dL)</label>
+            <input
+              type="number"
+              id="predict-glucose-sd"
+              min="0"
+              step="0.1"
+              placeholder="e.g. 28"
+            />
+            <span class="error" data-error-for="predict_glucose_sd"></span>
+          </div>
+          <div class="form-field">
+            <label for="predict-difficulty">Exam difficulty (1–10)</label>
+            <input
+              type="number"
+              id="predict-difficulty"
+              min="1"
+              max="10"
+              step="0.1"
+              placeholder="e.g. 6"
+            />
+            <span class="error" data-error-for="predict_difficulty"></span>
+          </div>
+        </div>
+        <div class="prediction-output">
+          <div>
+            <p class="label">Predicted score</p>
+            <p class="value" id="predicted-score">--</p>
+          </div>
+          <div class="model-details">
+            <p class="label">Model notes</p>
+            <ul id="prediction-notes"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/main.js"></script>
+  </body>
+</html>
